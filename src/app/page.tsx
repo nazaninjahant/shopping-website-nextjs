@@ -4,9 +4,6 @@ export default function Home() {
     <div>
       <div>
         Home Page
-
-        <Button type="primary">Primary Button</Button>
-        <Button type="default">Primary Button</Button>
       </div>
     </div>
   );

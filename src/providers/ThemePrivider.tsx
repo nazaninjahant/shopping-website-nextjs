@@ -12,6 +12,7 @@ function ThemePrivider({
                 theme={{
                     token: {
                         colorPrimary: "#157694",
+                        borderRadius: 10
                     }
                 }}
             >
