@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --primary : #157694;
+  --foreground: #171717;
+}
+body {
+  /* color: var(--foreground);
+  background: var(--background); */
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button {
+    height: 40px !important;
+}
