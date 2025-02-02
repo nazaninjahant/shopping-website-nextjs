@@ -16,7 +16,7 @@ function Login() {
     return (
         <div className='grid grid-cols-1 md:grid-cols-2 min-h-screen'>
             <div className='h-full bg-primary hidden md:flex items-center justify-center'>
-                <h1 className='text-white font-semibold text-7xl'>Shpping</h1>
+                <h1 className='text-white font-semibold text-7xl'>Shopping</h1>
             </div>
 
             <div className='h-full flex items-center justify-center px-6'>
