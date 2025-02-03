@@ -5,11 +5,9 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 
 function Dashboard() {
-    const router = useRouter()
-    const currentUser = useSelector((state: any) => state.user)
-    React.useEffect(() => {
-        console.log(currentUser)
-    }, [router])
+
+    const { currentUser } = useSelector((state: any) => state.user)
+
     return (
         <div className='p-5'>
             {currentUser.isAdmin && (
