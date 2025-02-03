@@ -42,6 +42,7 @@ function Register() {
                     <Form className='w-[400px] flex flex-col gap-y-4' layout='vertical'
                         onFinish={onRegister}
                     >
+                        <span className='cursor-pointer' onClick={() => router.push('/')}>/ Home</span>
                         <h1>Register</h1>
                         <p className='font-light mb-4'>Welcome to the Shopping 👋 </p>
                         <Form.Item name='name' label='Name' rules={getFieldRequiredRules('Please enter youre name')}>

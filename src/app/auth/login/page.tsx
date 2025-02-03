@@ -20,7 +20,7 @@ function Login() {
             setLoading(true);
             await axios.post('/api/auth/login', values);
             toast.success("Login successful ");
-            router.push("/");
+            router.push("/dashboard");
         } catch (error: any) {
             toast.error(error.response.data.message);
         } finally {
@@ -28,7 +28,7 @@ function Login() {
         }
     }
     return (
-        <>
+        <div>
             <Toaster position="top-center" expand={false} richColors />
             <div className='grid grid-cols-1 md:grid-cols-2 min-h-screen'>
                 <div className='h-full bg-primary hidden md:flex items-center justify-center'>
@@ -39,6 +39,7 @@ function Login() {
                     <Form className='w-[400px] font-medium flex flex-col gap-4' layout='vertical'
                         onFinish={onLogin}
                     >
+                        <span className='cursor-pointer' onClick={() => router.push('/')}>/ Home</span>
                         <h1 >Login</h1>
                         <p className='font-light mb-4'>Welcome back to the Shopping 👋 </p>
 
@@ -56,7 +57,7 @@ function Login() {
                     </Form>
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 

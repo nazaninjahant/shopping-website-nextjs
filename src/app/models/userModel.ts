@@ -22,8 +22,8 @@ export const userSchema = new mongoose.Schema(
     },
     isActive: {
       type: Boolean,
-      required: true,
-      default: false,
+      required: false,
+      default: true,
     },
     isAdmin: {
       type: Boolean,
