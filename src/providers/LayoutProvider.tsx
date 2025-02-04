@@ -1,7 +1,7 @@
 'use client'
 import Loader from '@/components/Loader'
 import { SetCurrentUser } from '@/redux/userSlice'
-import { Popover } from 'antd'
+import { Empty, Popover } from 'antd'
 import axios from 'axios'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -41,7 +41,24 @@ export default function LayoutProvider({ children }: { children: React.ReactNode
         }
     }
 
-    const content = (
+    const cardContent = (
+        <div>
+            <Empty
+                image={
+                    <i className="ri-shopping-cart-2-fill text-primary"></i>
+                }
+                styles={{ image: { height: 25, scale: 1.5 } }}
+                description={
+                    <div>
+                        Card empty
+                    </div>
+                }
+            >
+            </Empty>
+        </div>
+    )
+
+    const profileContent = (
         <div>
             {currentUser ?
                 (
@@ -96,11 +113,14 @@ export default function LayoutProvider({ children }: { children: React.ReactNode
                                 <Link className='no-underline text-primary hover-underline' href='/contact'>Contact</Link>
                             </div>
                             <div className='flex gap-x-6 items-center'>
-                                <div className='hover:bg-primary hover:text-white rounded-full px-2 py-1 justify-center items-center text-primary text-xl cursor-pointer'>
-                                    <i className="ri-shopping-cart-2-fill"></i>
-                                </div>
-                                <Popover content={content} trigger="click">
-                                    <div className='hover:bg-primary hover:text-white text-primary  px-2 py-1 rounded-full text-xl justify-center items-cente cursor-pointer'>
+                                <Popover content={cardContent} trigger="click">
+                                    <div className='rounded-full px-2 py-1 justify-center items-center text-primary text-xl cursor-pointer'>
+                                        <i className="ri-shopping-cart-2-fill"></i>
+                                    </div>
+                                </Popover>
+
+                                <Popover content={profileContent} trigger="click">
+                                    <div className='bg-primary text-white  px-2 py-1 rounded-full text-xl justify-center items-cente cursor-pointer'>
                                         {currentUser ? <span className='px-1'>{currentUser.name[0]}</span> : <i className="ri-user-3-fill"></i>}
                                     </div>
                                 </Popover>
