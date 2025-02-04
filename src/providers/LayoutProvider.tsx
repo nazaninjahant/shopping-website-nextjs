@@ -3,6 +3,7 @@ import Loader from '@/components/Loader'
 import { SetCurrentUser } from '@/redux/userSlice'
 import { Popover } from 'antd'
 import axios from 'axios'
+import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -85,20 +86,30 @@ export default function LayoutProvider({ children }: { children: React.ReactNode
             <div>{isHomePages &&
                 (
                     <div>
-                        <div className='bg-primary p-4 flex justify-between items-center'>
-                            <div className='text-white font-bold italic text-2xl'>Shopping</div>
+                        <div className='bg-white/50 shadow-md  backdrop-blur-md p-4 flex justify-between items-center'>
+                            <div className='font-bold italic text-2xl'><Link className='no-underline text-primary' href='/'>Shopping</Link></div>
+                            <div className='flex flex-row-reverse gap-8'>
+                                <Link className='group no-underline text-primary hover-underline' href='/'>Home
+                                </Link>
+                                <Link className='no-underline text-primary hover-underline' href='/products'>Products</Link>
+                                <Link className='no-underline text-primary hover-underline' href='/about'>About</Link>
+                                <Link className='no-underline text-primary hover-underline' href='/contact'>Contact</Link>
+                            </div>
                             <div className='flex gap-x-6 items-center'>
-                                <div className='bg-white rounded-full px-2 py-1 justify-center items-center text-primary text-xl cursor-pointer'>
+                                <div className='hover:bg-primary hover:text-white rounded-full px-2 py-1 justify-center items-center text-primary text-xl cursor-pointer'>
                                     <i className="ri-shopping-cart-2-fill"></i>
                                 </div>
                                 <Popover content={content} trigger="click">
-                                    <div className='bg-white text-primary  px-2 py-1 rounded-full text-xl justify-center items-cente cursor-pointer'>
+                                    <div className='hover:bg-primary hover:text-white text-primary  px-2 py-1 rounded-full text-xl justify-center items-cente cursor-pointer'>
                                         {currentUser ? <span className='px-1'>{currentUser.name[0]}</span> : <i className="ri-user-3-fill"></i>}
                                     </div>
                                 </Popover>
                             </div>
                         </div>
-                        {children}
+                        <div className='p-5'>{children}</div>
+                        <footer className="fixed p-3 bottom-0 w-full items-center text-center text-sm bg-gray-100">
+                            <div >Alright reseved by <a target='_blank' href='https://github.com/nazaninjahant/' className='no-underline text-primary font-semibold italic'>BlackAnt</a> @2025</div>
+                        </footer>
                     </div>
                 )
             }

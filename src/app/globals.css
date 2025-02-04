@@ -22,3 +22,16 @@ button {
 .ant-form-item{
   margin-bottom: 0;
 }
+/* Hover underline animation  */
+.hover-underline {
+  @apply inline-block relative;
+}
+
+.hover-underline::after {
+  background-color: var(--primary);
+  @apply content-[''] duration-500 absolute w-full scale-x-0 h-[2px] bottom-0 left-0 origin-left transition-all ease-in-out;
+}
+
+.hover-underline:hover::after {
+  @apply scale-x-100;
+}
