@@ -1,14 +1,13 @@
 'use client'
 import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import React from 'react'
 import { useSelector } from 'react-redux'
+import CategoryList from './components/CategoryList';
 
 function Dashboard() {
-    const onChange = (key: string) => {
-        console.log(key);
-    };
+    const router = useRouter()
     const { currentUser } = useSelector((state: any) => state.user)
     const admin: TabsProps['items'] = [
         {
@@ -19,7 +18,7 @@ function Dashboard() {
         {
             key: '2',
             label: 'Categories',
-            children: 'Content of Categories',
+            children: <CategoryList></CategoryList>,
         },
         {
             key: '3',
@@ -44,13 +43,32 @@ function Dashboard() {
             children: 'Content of Orders',
         },
     ];
+    const searchParams = useSearchParams()
+    const id = searchParams.get('id') || '1'
+    const [selectedTab, setSelectedTab] = React.useState(id)
     return (
         <div className='p-5'>
             {currentUser && currentUser.isAdmin && (
-                <Tabs indicator={{ size: (origin) => origin - 20, align: 'center' }} defaultActiveKey="1" items={admin} onChange={onChange} />
+                <Tabs
+                    indicator={{ size: (origin) => origin - 20, align: 'center' }}
+                    defaultActiveKey="1"
+                    items={admin}
+                    onChange={(key) => {
+                        router.push(`/dashboard?id=${key}`)
+                        setSelectedTab(key)
+                    }}
+                    activeKey={selectedTab}
+                />
             )}
             {currentUser && !currentUser.isAdmin && (
-                <Tabs defaultActiveKey="1" items={user} onChange={onChange} />
+                <Tabs
+                    defaultActiveKey="1"
+                    items={user}
+                    onChange={(key) => {
+                        router.push(`/dashboard?id=${key}`)
+                        setSelectedTab(key)
+                    }}
+                    activeKey={selectedTab} />
             )}
         </div>
     )
