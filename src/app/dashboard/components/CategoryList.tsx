@@ -33,7 +33,7 @@ function CategoryList() {
             title: 'Created At',
             dataIndex: 'createdAt',
             key: 'createdAt',
-            render: (createdAt: string) => moment(createdAt).format('DDD MMM YYY')
+            render: (createdAt: string) => moment(createdAt).format('DD MMM YYYY hh:mm A')
         },
         {
             title: "Action",
@@ -47,7 +47,9 @@ function CategoryList() {
                                 setShowCategoryForm(true)
                             }}
                         >Edit</Button>
-                        <Button danger >Delete</Button>
+                        <Button danger onClick={() => {
+                            onDelete(params._id)
+                        }}>Delete</Button>
                     </div>
                 )
 
@@ -55,6 +57,16 @@ function CategoryList() {
 
         }
     ];
+    const onDelete = async (id: string) => {
+        try {
+            await axios.delete(`/api/categories/${id}`)
+            toast.success("Deleted Successfully !")
+            getCategories()
+        } catch (error: any) {
+            toast.error(error.response.data.message || error.message);
+        }
+    }
+
     const getCategories = async () => {
         try {
             setLoading(true)
@@ -83,7 +95,7 @@ function CategoryList() {
             </div>
 
             {showCategoryForm && <CategoryForm selectedCategory={selectedCategory}
-                setSelectedCategory={setSelectedCategory} showCategoryForm={showCategoryForm} reloadData={() => { }} setShowCategoryForm={setShowCategoryForm} />}
+                setSelectedCategory={setSelectedCategory} showCategoryForm={showCategoryForm} reloadData={() => { getCategories() }} setShowCategoryForm={setShowCategoryForm} />}
         </div>
     )
 }

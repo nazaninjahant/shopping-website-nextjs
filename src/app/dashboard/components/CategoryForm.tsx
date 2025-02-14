@@ -16,12 +16,18 @@ function CategoryForm({
     const onFinish = async (values: any) => {
         try {
             setLoading(true);
-            await axios.post('/api/categories', values)
-            toast.success('Categoty add successfully');
+            if (selectedCategory) {
+                await axios.post(`/api/categories/${selectedCategory._id}`, values)
+                toast.success('Categoty updated successfully');
+            } else {
+                await axios.post('/api/categories', values)
+                toast.success('Categoty add successfully');
+            }
             setShowCategoryForm(false);
-            reloadData()
+            setSelectedCategory(null);
+            reloadData();
         } catch (error: any) {
-            toast.error(error.response.data.message);
+            toast.error(error.response.data.message || error.message);
         } finally {
             setLoading(false)
         }
@@ -31,9 +37,13 @@ function CategoryForm({
     return (
         <>
             <Toaster position="top-center" expand={false} richColors />
-            <Modal okButtonProps={{ loading }} onOk={() => { form.submit() }} centered title={<h1 className='text-primary font-bold text-2xl'>{
-                selectedCategory ? 'Change Category' : 'Add Category'
-            }</h1>} closable={false} okText='Save' open={showCategoryForm} onCancel={() => {
+            <Modal okButtonProps={{ loading }} onOk={() => { form.submit() }} centered title={<h1 className='text-primary font-bold text-2xl'>
+                {
+                    selectedCategory ? 'Change Category' : 'Add Category'
+                }
+            </h1>} closable={false} okText={
+                selectedCategory ? 'Update' : 'Save'
+            } open={showCategoryForm} onCancel={() => {
                 setShowCategoryForm(false)
                 setSelectedCategory(null)
             }}>
