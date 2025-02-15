@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import CategoryList from './components/CategoryList';
+import ProductList from './components/ProductList';
 
 function Dashboard() {
     const router = useRouter()
@@ -13,7 +14,7 @@ function Dashboard() {
         {
             key: '1',
             label: 'Products',
-            children: 'Content of Products',
+            children: <ProductList></ProductList>,
         },
         {
             key: '2',

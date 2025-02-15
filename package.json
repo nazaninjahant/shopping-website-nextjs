@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.1",
+    "@supabase/supabase-js": "^2.48.1",
     "antd": "^5.23.3",
     "axios": "^1.7.9",
     "bcryptjs": "^2.4.3",
