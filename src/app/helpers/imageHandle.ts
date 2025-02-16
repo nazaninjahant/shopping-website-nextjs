@@ -9,11 +9,11 @@ const supabase = createClient(
 // Upload file using standard upload
 export async function uploadFile(file: any) {
   const { data, error } = await supabase.storage
-    .from("products")
-    .upload("file_path", file);
+    .from("images")
+    .upload(`${file.uid}`, file);
   if (error) {
     console.log(error);
   } else {
-    console.log(error);
+    console.log(data);
   }
 }

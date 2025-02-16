@@ -20,13 +20,23 @@ function AddProduct() {
     const onSave = async (values: any) => {
         try {
             setLoading(true)
-            const imageUrl = await uploadFile(selectedFiles);
-            values.images = imageUrl;
+            let data = []
+            // const imageUrl = await uploadFile(selectedFiles);
+            // values.images = imageUrl;
+            for (let i = 0; i < selectedFiles.length; i++) {
+                const file = selectedFiles[i];
+
+                const imageUrl = await uploadFile(file);
+                console.log(imageUrl)
+                data.push(imageUrl)
+
+            }
+            values.images = data
             await axios.post('/api/products', values);
             router.push('/dashboard?id=1')
             toast.success('Product created successfully');
         } catch (error: any) {
-            toast.error(error.response.data.message || error.message)
+            toast.error(error.message || error.response.data.message)
         } finally {
             setLoading(false)
         }
