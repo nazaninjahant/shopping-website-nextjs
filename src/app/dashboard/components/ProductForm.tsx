@@ -1,16 +1,16 @@
+'use client'
 import { getFieldRequiredRules } from '@/app/helpers/validations'
-import { Button, Form, Input, Select, Upload } from 'antd'
+import { Button, Form, Image, Input, Select, Upload } from 'antd'
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import React from 'react'
 import { toast, Toaster } from 'sonner'
 
 
-function ProductForm({ setSelectedFiles, onSave, loading }: ProductFormProps) {
+function ProductForm({ setSelectedFiles, onSave, loading, initialValue, existingImages, setExistingImages }: ProductFormProps) {
 
     const router = useRouter()
     const [categories, setCategories] = React.useState([])
-
     const getCategories = async () => {
         try {
             const response = await axios.get('/api/categories')
@@ -26,7 +26,7 @@ function ProductForm({ setSelectedFiles, onSave, loading }: ProductFormProps) {
     return (
         <div className='my-5 mx-auto md:max-w-[50%]'>
             <Toaster position="top-center" expand={false} richColors />
-            <Form onFinish={onSave} layout='vertical' className='grid grid-cols-1 md:grid-cols-3 gap-y-9 gap-x-4'>
+            <Form initialValues={initialValue} onFinish={onSave} layout='vertical' className='grid grid-cols-1 md:grid-cols-3 gap-y-9 gap-x-4'>
                 <div className='col-span-3'>
                     <Form.Item label='Name' name='name' rules={getFieldRequiredRules("Please Enter Product Name")}>
                         <Input autoComplete="new-product" placeholder='Enter Product Name' className='w-full h-[45px]' type='text'></Input>
@@ -70,6 +70,28 @@ function ProductForm({ setSelectedFiles, onSave, loading }: ProductFormProps) {
                     }} />
                 </Form.Item>
 
+                <div className='col-span-3 gap-2 mt-5 grid grid-cols-4'>
+                    {
+                        existingImages.map((image: any) => (
+                            <div>
+                                <span className='p-1 px-2 relative -top-10 left-2 z-10 rounded-full cursor-pointer my-5 bg-red-800'
+                                    onClick={() => {
+                                        setExistingImages((prev: any) => prev.filter((i: any) => i !== image))
+                                    }}
+                                >
+                                    <i className="ri-delete-bin-6-line text-white"></i>
+                                </span>
+                                <Image
+                                    src={image.url}
+                                    alt=''
+                                    className='max-w-24 max-h-24'
+                                />
+
+                            </div>
+                        ))
+                    }
+                </div>
+
                 <div className='col-span-3 justify-items-end mt-5'>
                     <Form.Item name='images'>
                         <Upload name="images" listType="picture-card"
@@ -84,7 +106,7 @@ function ProductForm({ setSelectedFiles, onSave, loading }: ProductFormProps) {
                     </Form.Item>
                 </div>
 
-                <div className='col-span-3 mt-8 justify-end flex gap-5'>
+                <div className='col-span-3 my-8 justify-end flex gap-5'>
                     <Button onClick={() => router.back()}>Cancel</Button>
                     <Button type='primary' htmlType='submit' loading={loading}>Save</Button>
                 </div>
@@ -99,4 +121,7 @@ interface ProductFormProps {
     setSelectedFiles: any;
     onSave: any;
     loading: any;
+    initialValue?: any;
+    existingImages?: any;
+    setExistingImages: any;
 }

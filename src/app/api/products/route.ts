@@ -15,18 +15,20 @@ export async function POST(request: NextRequest) {
     });
 
     if (productExists) {
-      throw new Error("Category already exists !");
+      throw new Error("Product already exists !");
     }
 
     reqBody.createdBy = userId;
     const product = new productModel(reqBody);
     await product.save();
     return NextResponse.json({
+      success: true,
       message: "Product created successfully",
     });
   } catch (error: any) {
     return NextResponse.json(
       {
+        success: false,
         message: error.message,
       },
       { status: 500 }
@@ -37,15 +39,13 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   try {
     await validateJWT(request);
-    const products = productModel
+    const products = await productModel
       .find()
       .populate("createdBy", "name")
       .sort({ createdAt: -1 });
-    return NextResponse.json({
-      data: products,
-    });
+    return NextResponse.json({ data: products });
   } catch (error: any) {
-    NextResponse.json(
+    return NextResponse.json(
       {
         message: error.messae,
       },

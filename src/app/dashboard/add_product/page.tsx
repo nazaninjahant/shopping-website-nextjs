@@ -21,9 +21,8 @@ function AddProduct() {
         try {
             setLoading(true)
             const imageUrl = await uploadFile(selectedFiles);
-            console.log(imageUrl)
             values.images = imageUrl;
-            await axios.post('/api/products', values);
+            const response = await axios.post('/api/products', values);
             router.push('/dashboard?id=1')
             toast.success('Product created successfully');
         } catch (error: any) {
@@ -36,7 +35,7 @@ function AddProduct() {
         <div>
             <Toaster position="top-center" expand={false} richColors />
             <h1 className='text-primary my-3 mb-5 mx-auto md:max-w-[50%]'>Add Product</h1>
-            <ProductForm loading={loading} onSave={onSave} setSelectedFiles={setSelectedFiles} />
+            <ProductForm loading={loading} onSave={onSave} setSelectedFiles={setSelectedFiles} existingImages={[]} setExistingImages={() => { }} initialValue={null} />
         </div>
     )
 }
