@@ -20,18 +20,9 @@ function AddProduct() {
     const onSave = async (values: any) => {
         try {
             setLoading(true)
-            let data = []
-            // const imageUrl = await uploadFile(selectedFiles);
-            // values.images = imageUrl;
-            for (let i = 0; i < selectedFiles.length; i++) {
-                const file = selectedFiles[i];
-
-                const imageUrl = await uploadFile(file);
-                console.log(imageUrl)
-                data.push(imageUrl)
-
-            }
-            values.images = data
+            const imageUrl = await uploadFile(selectedFiles);
+            console.log(imageUrl)
+            values.images = imageUrl;
             await axios.post('/api/products', values);
             router.push('/dashboard?id=1')
             toast.success('Product created successfully');
