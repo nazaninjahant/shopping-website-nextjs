@@ -26,7 +26,7 @@ function AddProduct() {
             router.push('/dashboard?id=1')
             toast.success('Product created successfully');
         } catch (error: any) {
-            toast.error(error.message || error.response.data.message)
+            toast.error(error.response.data.message || error.message)
         } finally {
             setLoading(false)
         }
@@ -34,7 +34,7 @@ function AddProduct() {
     return (
         <div>
             <Toaster position="top-center" expand={false} richColors />
-            <h1 className='text-primary my-3 mb-5 mx-auto md:max-w-[50%]'>Add Product</h1>
+            <h1 className='text-primary my-3 mb-5 mx-auto lg:max-w-[50%]'>Add Product</h1>
             <ProductForm loading={loading} onSave={onSave} setSelectedFiles={setSelectedFiles} existingImages={[]} setExistingImages={() => { }} initialValue={null} />
         </div>
     )

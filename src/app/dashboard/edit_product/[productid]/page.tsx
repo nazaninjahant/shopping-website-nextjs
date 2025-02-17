@@ -49,7 +49,7 @@ function EditProduct({ params }: { params: any }) {
     return (
         <div>
             <Toaster position="top-center" expand={false} richColors />
-            <h1 className='text-primary my-3 mb-5 mx-auto md:max-w-[50%]'>Edit Product</h1>
+            <h1 className='text-primary my-3 mb-5 mx-auto lg:max-w-[50%]'>Edit Product</h1>
             {product && <ProductForm
                 setSelectedFiles={setSelectedFiles} onSave={onSave} loading={loading} existingImages={existingImages} setExistingImages={setExistingImages} initialValue={product}
             ></ProductForm>}

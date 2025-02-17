@@ -1,6 +1,6 @@
 'use client'
 import { getFieldRequiredRules } from '@/app/helpers/validations'
-import { Button, Form, Image, Input, Select, Upload } from 'antd'
+import { Button, Form, Image, Input, Select, Space, Upload } from 'antd'
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import React from 'react'
@@ -24,12 +24,12 @@ function ProductForm({ setSelectedFiles, onSave, loading, initialValue, existing
     }, [])
 
     return (
-        <div className='my-5 mx-auto md:max-w-[50%]'>
+        <div className='my-5 mx-auto lg:max-w-[50%]'>
             <Toaster position="top-center" expand={false} richColors />
-            <Form initialValues={initialValue} onFinish={onSave} layout='vertical' className='grid grid-cols-1 md:grid-cols-3 gap-y-9 gap-x-4'>
+            <Form autoComplete="off" initialValues={initialValue} onFinish={onSave} layout='vertical' className='grid grid-cols-1 lg:grid-cols-3 gap-y-9 gap-x-4'>
                 <div className='col-span-3'>
                     <Form.Item label='Name' name='name' rules={getFieldRequiredRules("Please Enter Product Name")}>
-                        <Input autoComplete="new-product" placeholder='Enter Product Name' className='w-full h-[45px]' type='text'></Input>
+                        <Input placeholder='Enter Product Name' className='w-full h-[45px]' type='text'></Input>
                     </Form.Item>
                 </div>
                 <div className='col-span-3'>
@@ -38,7 +38,7 @@ function ProductForm({ setSelectedFiles, onSave, loading, initialValue, existing
                     </Form.Item>
                 </div>
                 <Form.Item label='Price' name='price' rules={getFieldRequiredRules("Please Enter Product Price")}>
-                    <Input placeholder='Enter Product Price' className='w-full h-[45px]'
+                    <Input placeholder='Enter Product Price' className='w-full h-[45px]' suffix="$"
                         onKeyPress={(event) => {
                             if (!/[0-9]/.test(event.key)) {
                                 event.preventDefault();
@@ -70,31 +70,36 @@ function ProductForm({ setSelectedFiles, onSave, loading, initialValue, existing
                     }} />
                 </Form.Item>
 
-                <div className='col-span-3 gap-2 mt-5 grid grid-cols-4'>
-                    {
-                        existingImages.map((image: any) => (
-                            <div>
-                                <span className='p-1 px-2 relative -top-10 left-2 z-10 rounded-full cursor-pointer my-5 bg-red-800'
-                                    onClick={() => {
-                                        setExistingImages((prev: any) => prev.filter((i: any) => i !== image))
-                                    }}
-                                >
-                                    <i className="ri-delete-bin-6-line text-white"></i>
-                                </span>
-                                <Image
-                                    src={image.url}
-                                    alt=''
-                                    className='max-w-24 max-h-24'
-                                />
+                <div className='col-span-3 mt-2'>
+                    <div className='grid md:grid-cols-6 grid-cols-2 gap-2'>
+                        {
+                            existingImages.map((image: any) => (
+                                <div className='relative'>
+                                    <span className='p-1 absolute -top-9 px-2 z-10 rounded-full cursor-pointer my-5 bg-red-800'
+                                        onClick={() => {
+                                            setExistingImages((prev: any) => prev.filter((i: any) => i !== image))
+                                        }}
+                                    >
+                                        <i className="ri-delete-bin-6-line text-white"></i>
+                                    </span>
+                                    <Image
+                                        width={100}
+                                        height={100}
+                                        src={image.url}
+                                        alt='shopping'
+                                        className='bg-cover'
+                                    />
 
-                            </div>
-                        ))
-                    }
+                                </div>
+                            ))
+                        }
+                    </div>
                 </div>
 
-                <div className='col-span-3 justify-items-end mt-5'>
-                    <Form.Item name='images'>
-                        <Upload name="images" listType="picture-card"
+                <div className='col-span-3 my-2'>
+                    <h3 className='font-medium mb-5'>Upload new images :</h3>
+                    <Form.Item name='images' rules={getFieldRequiredRules("Please upload at least one image")}>
+                        <Upload name="images" listType="picture-card" className='justify-self-end'
                             beforeUpload={(files) => {
                                 setSelectedFiles((prev: any) => [...prev, files])
                                 return false
@@ -106,7 +111,41 @@ function ProductForm({ setSelectedFiles, onSave, loading, initialValue, existing
                     </Form.Item>
                 </div>
 
-                <div className='col-span-3 my-8 justify-end flex gap-5'>
+                <div className='col-span-3'>
+                    <h3 className='font-medium mb-5'>Feature List :</h3>
+                    <Form.List name="features">
+                        {(fields, { add, remove }) => (
+                            <>
+                                {fields.map(({ key, name, ...restField }) => (
+                                    <Space key={key} className='mb-4 grid grid-cols-3' align="baseline">
+                                        <Form.Item
+                                            {...restField}
+                                            name={[name, 'first']}
+                                            rules={[{ required: true, message: 'Please enter feature title' }]}
+                                        >
+                                            <Input placeholder="Title" />
+                                        </Form.Item>
+                                        <Form.Item
+                                            {...restField}
+                                            name={[name, 'last']}
+                                            rules={[{ required: true, message: 'Please enter feature detail' }]}
+                                        >
+                                            <Input placeholder="Detail" />
+                                        </Form.Item>
+                                        <i className="ri-indeterminate-circle-line text-xl text-red-600 cursor-pointer" onClick={() => remove(name)}></i>
+                                    </Space>
+                                ))}
+                                <Form.Item>
+                                    <Button type="dashed" onClick={() => add()} block icon={<i className="ri-add-circle-line"></i>}>
+                                        Add Feature
+                                    </Button>
+                                </Form.Item>
+                            </>
+                        )}
+                    </Form.List>
+                </div>
+
+                <div className='col-span-3 mt-2 mb-8 justify-end flex gap-5'>
                     <Button onClick={() => router.back()}>Cancel</Button>
                     <Button type='primary' htmlType='submit' loading={loading}>Save</Button>
                 </div>

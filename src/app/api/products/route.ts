@@ -1,4 +1,5 @@
 import { connectDB } from "@/app/configs/dbConfig";
+import { deleteFiles } from "@/app/helpers/imageHandle";
 import { validateJWT } from "@/app/helpers/validateJWT";
 import productModel from "@/app/models/productModel";
 import { NextRequest, NextResponse } from "next/server";
@@ -15,6 +16,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (productExists) {
+      await deleteFiles(reqBody.images);
       throw new Error("Product already exists !");
     }
 
@@ -22,13 +24,11 @@ export async function POST(request: NextRequest) {
     const product = new productModel(reqBody);
     await product.save();
     return NextResponse.json({
-      success: true,
       message: "Product created successfully",
     });
   } catch (error: any) {
     return NextResponse.json(
       {
-        success: false,
         message: error.message,
       },
       { status: 500 }

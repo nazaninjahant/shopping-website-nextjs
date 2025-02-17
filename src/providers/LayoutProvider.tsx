@@ -1,4 +1,6 @@
 'use client'
+import Footer from '@/components/Footer'
+import Header from '@/components/Header'
 import Loader from '@/components/Loader'
 import { SetCurrentUser } from '@/redux/userSlice'
 import { Empty, Popover } from 'antd'
@@ -13,8 +15,8 @@ export default function LayoutProvider({ children }: { children: React.ReactNode
     const { currentUser } = useSelector((state: any) => state.user)
     const [loading, setLoading] = React.useState(false)
     const pathname = usePathname()
-    const isHomePages = pathname !== '/auth/login' && pathname !== '/auth/register';
     const router = useRouter()
+    const isHomePages = pathname !== '/auth/login' && pathname !== '/auth/register';
     const dispatch = useDispatch()
     const getCurrentUser = async () => {
         try {
@@ -27,6 +29,7 @@ export default function LayoutProvider({ children }: { children: React.ReactNode
             setLoading(false)
         }
     }
+
     const onLogout = async () => {
         try {
             setLoading(true)
@@ -41,55 +44,6 @@ export default function LayoutProvider({ children }: { children: React.ReactNode
         }
     }
 
-    const cardContent = (
-        <div>
-            <Empty
-                image={
-                    <i className="ri-shopping-cart-2-fill text-primary"></i>
-                }
-                styles={{ image: { height: 25, scale: 1.5 } }}
-                description={
-                    <div>
-                        Card empty
-                    </div>
-                }
-            >
-            </Empty>
-        </div>
-    )
-
-    const profileContent = (
-        <div>
-            {currentUser ?
-                (
-                    <div className='flex flex-col gap-y-3'>
-                        <div
-                            onClick={() => router.push('/dashboard')}
-                            className='cursor-pointer hover:bg-teal-800/70 rounded-lg hover:text-white py-1 px-2'><i className="ri-dashboard-fill mr-2"></i>
-                            <span>dashboard</span></div>
-                        <div
-                            onClick={() => onLogout()}
-                            className='cursor-pointer hover:bg-teal-800/70 rounded-lg hover:text-white py-1 px-2'><i className="ri-logout-circle-r-line mr-2"></i>
-                            <span>logout</span></div>
-                    </div>
-                ) : (
-                    <div className='flex flex-col gap-y-3'>
-                        <div
-                            onClick={() => router.push('/auth/login')}
-                            className='cursor-pointer hover:bg-teal-800/70 rounded-lg hover:text-white py-1 px-2'>
-                            <i className="ri-dashboard-fill mr-2"></i>
-                            login</div>
-                        <div
-                            onClick={() => router.push('/auth/register')}
-                            className='cursor-pointer hover:bg-teal-800/70 rounded-lg hover:text-white py-1 px-2'>
-                            <i className="ri-logout-circle-line mr-2"></i>
-                            signup</div>
-                    </div>
-                )
-            }
-        </div>
-    )
-
     useEffect(() => {
         if (isHomePages) {
             getCurrentUser()
@@ -103,33 +57,9 @@ export default function LayoutProvider({ children }: { children: React.ReactNode
             <div>{isHomePages &&
                 (
                     <div>
-                        <div className='bg-white/50 shadow-md  backdrop-blur-md p-4 flex justify-between items-center'>
-                            <div className='font-bold italic text-2xl'><Link className='no-underline text-primary' href='/'>Shopping</Link></div>
-                            <div className='flex flex-row-reverse gap-8'>
-                                <Link className='group no-underline text-primary hover-underline' href='/'>Home
-                                </Link>
-                                <Link className='no-underline text-primary hover-underline' href='/products'>Products</Link>
-                                <Link className='no-underline text-primary hover-underline' href='/about'>About</Link>
-                                <Link className='no-underline text-primary hover-underline' href='/contact'>Contact</Link>
-                            </div>
-                            <div className='flex gap-x-6 items-center'>
-                                <Popover content={cardContent} trigger="click">
-                                    <div className='rounded-full px-2 py-1 justify-center items-center text-primary text-xl cursor-pointer'>
-                                        <i className="ri-shopping-cart-2-fill"></i>
-                                    </div>
-                                </Popover>
-
-                                <Popover content={profileContent} trigger="click">
-                                    <div className='bg-primary text-white  px-2 py-1 rounded-full text-xl justify-center items-cente cursor-pointer'>
-                                        {currentUser ? <span className='px-1'>{currentUser.name[0]}</span> : <i className="ri-user-3-fill"></i>}
-                                    </div>
-                                </Popover>
-                            </div>
-                        </div>
+                        <Header onLogout={onLogout} currentUser={currentUser} />
                         <div className='p-5'>{children}</div>
-                        <footer className="fixed p-3 bottom-0 w-full items-center text-center text-sm bg-gray-100">
-                            <div >Alright reseved by <a target='_blank' href='https://github.com/nazaninjahant/' className='no-underline text-primary font-semibold italic'>BlackAnt</a> @2025</div>
-                        </footer>
+                        <Footer />
                     </div>
                 )
             }

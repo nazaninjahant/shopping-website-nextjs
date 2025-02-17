@@ -1,4 +1,5 @@
 'use client'
+import { deleteFiles } from '@/app/helpers/imageHandle';
 import { Button, Image, Table } from 'antd'
 import axios from 'axios';
 import moment from 'moment';
@@ -9,8 +10,9 @@ import { toast, Toaster } from 'sonner';
 function ProductList() {
     const router = useRouter()
     const [products, setProducts] = React.useState([]);
-    const [loading, setLoading] = React.useState(false)
-
+    const [loading, setLoading] = React.useState(false);
+    const [deleteLoading, setDeleteLoading] = React.useState(false);
+    const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
     const getProduct = async () => {
         try {
             setLoading(true)
@@ -21,6 +23,21 @@ function ProductList() {
         } finally {
             setLoading(false)
         }
+    }
+
+    const deleteProduct = async (productid: string) => {
+        try {
+            setDeleteLoading(true)
+            await axios.delete(`/api/products/${productid}`)
+            await deleteFiles(selectedProduct.images)
+            toast.success("Product deleted successfully")
+            getProduct()
+        } catch (error: any) {
+            toast.error(error.message || error.response.data.message)
+        } finally {
+            setDeleteLoading(false)
+        }
+
     }
 
     const columns = [
@@ -61,7 +78,13 @@ function ProductList() {
                                 router.push(`/dashboard/edit_product/${params._id}`)
                             }}
                         >Edit</Button>
-                        <Button danger>Delete</Button>
+                        <Button danger
+                            onClick={() => {
+                                setSelectedProduct(params)
+                                deleteProduct(params._id)
+                            }}
+                            loading={deleteLoading && selectedProduct?._id === params._id}
+                        >Delete</Button>
                     </div>
                 )
 
@@ -83,7 +106,7 @@ function ProductList() {
             </div>
 
             <div className='my-5'>
-                <Table loading={loading} columns={columns} dataSource={products}></Table>
+                <Table loading={loading} columns={columns} dataSource={products} scroll={{ x: 'max-content' }}></Table>
             </div>
         </div>
     )

@@ -23,3 +23,16 @@ export async function uploadFile(files: any) {
   }
   return promises;
 }
+
+export async function deleteFiles(product: any) {
+  for (const images of product) {
+    const path = images.path;
+    const { data, error } = await supabase.storage
+      .from("images")
+      .remove([`${path}`]);
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data;
+  }
+}

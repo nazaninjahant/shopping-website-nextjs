@@ -33,6 +33,11 @@ export const productSchema = new mongoose.Schema(
       required: true,
       ref: "users",
     },
+    features: {
+      type: Array,
+      required: true,
+      default: [],
+    },
   },
   { timestamps: true }
 );
