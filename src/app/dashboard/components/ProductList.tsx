@@ -33,7 +33,7 @@ function ProductList() {
             toast.success("Product deleted successfully")
             getProduct()
         } catch (error: any) {
-            toast.error(error.message || error.response.data.message)
+            toast.error(error.message)
         } finally {
             setDeleteLoading(false)
         }

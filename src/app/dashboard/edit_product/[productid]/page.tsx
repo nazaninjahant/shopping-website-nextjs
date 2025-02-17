@@ -5,6 +5,7 @@ import axios from 'axios'
 import { toast, Toaster } from 'sonner'
 import { uploadFile } from '@/app/helpers/imageHandle'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 function EditProduct({ params }: { params: any }) {
     const [existingImages, setExistingImages] = React.useState([])
@@ -44,12 +45,16 @@ function EditProduct({ params }: { params: any }) {
     }
 
     React.useEffect(() => {
-        getSelectedProduct()
+        getSelectedProduct();
     }, [])
     return (
         <div>
             <Toaster position="top-center" expand={false} richColors />
-            <h1 className='text-primary my-3 mb-5 mx-auto lg:max-w-[50%]'>Edit Product</h1>
+            <div className='bg-gray-50 rounded-lg px-2 py-1'>
+                <Link href='/dashboard?id=1' className='no-underline'><i className="ri-home-smile-line text-black rounded-full px-2 cursor-pointer"></i></Link>
+                <span className='font-normal text-sm'>/ Edit Product</span>
+            </div>
+            <h1 className='text-primary my-5 mx-auto lg:max-w-[50%] px-2'>Edit Product</h1>
             {product && <ProductForm
                 setSelectedFiles={setSelectedFiles} onSave={onSave} loading={loading} existingImages={existingImages} setExistingImages={setExistingImages} initialValue={product}
             ></ProductForm>}

@@ -77,7 +77,7 @@ function Header({ currentUser, onLogout }: HeaderProps) {
     ]
     return (
         <>
-            <div className='bg-white/50 shadow-md  backdrop-blur-md p-4 flex justify-between items-center'>
+            <div className='fixed top-0 w-full z-20 bg-white/50 shadow-md  backdrop-blur-md p-4 flex justify-between items-center'>
                 <div>
                     <span className='text-primary px-2 py-1 text-xl bg-gray-50 rounded-full mr-2 inline lg:hidden'
                         onClick={() => { setShowDrawer(true) }}
@@ -90,7 +90,7 @@ function Header({ currentUser, onLogout }: HeaderProps) {
                 <div className='lg:flex lg:flex-row-reverse gap-8 hidden'>
                     {
                         links.map((link: any) => (
-                            <Link className={pathname == link.path ? 'underline underline-offset-[6px] decoration-2 text-primary' : 'no-underline text-primary hover-underline'} href='/'>{link.text}
+                            <Link key={link.text} className={pathname == link.path ? 'underline underline-offset-[6px] decoration-2 text-primary' : 'no-underline text-primary hover-underline'} href='/'>{link.text}
                             </Link>
                         ))
                     }
@@ -114,7 +114,7 @@ function Header({ currentUser, onLogout }: HeaderProps) {
                 <div className='flex flex-col gap-y-3 text-lg'>
                     {
                         links.map((link: any) => (
-                            <Link className={pathname == link.path ? 'bg-primary text-white rounded-full pl-3 py-1' : 'pl-3 py-1 no-underline text-primary'} href='/'>{link.text}
+                            <Link key={link.text} className={pathname == link.path ? 'bg-primary text-white rounded-full pl-3 py-1' : 'pl-3 py-1 no-underline text-primary'} href='/'>{link.text}
                             </Link>
                         ))
                     }

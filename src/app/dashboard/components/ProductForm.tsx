@@ -24,7 +24,7 @@ function ProductForm({ setSelectedFiles, onSave, loading, initialValue, existing
     }, [])
 
     return (
-        <div className='my-5 mx-auto lg:max-w-[50%]'>
+        <div className='my-5 mx-auto lg:max-w-[50%] px-2'>
             <Toaster position="top-center" expand={false} richColors />
             <Form autoComplete="off" initialValues={initialValue} onFinish={onSave} layout='vertical' className='grid grid-cols-1 lg:grid-cols-3 gap-y-9 gap-x-4'>
                 <div className='col-span-3'>

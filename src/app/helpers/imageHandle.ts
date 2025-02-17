@@ -24,15 +24,14 @@ export async function uploadFile(files: any) {
   return promises;
 }
 
-export async function deleteFiles(product: any) {
-  for (const images of product) {
-    const path = images.path;
+export async function deleteFiles(images: any) {
+  for (let i = 0; i < images.length; i++) {
+    const path = images[i].path;
     const { data, error } = await supabase.storage
       .from("images")
       .remove([`${path}`]);
     if (error) {
       throw new Error(error.message);
     }
-    return data;
   }
 }

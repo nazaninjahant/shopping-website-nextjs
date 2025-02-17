@@ -35,3 +35,32 @@ button {
 .hover-underline:hover::after {
   @apply scale-x-100;
 }
+
+ /* width */
+ ::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+ }
+
+ /* Track */
+ ::-webkit-scrollbar-track {
+  border-radius: 8px;
+    background-color: transparent;
+    border: 1px solid transparent;
+ }
+
+ /* Handle */
+ ::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+    background-color: var(--primary);
+ }
+
+ /* Handle on hover */
+ ::-webkit-scrollbar-thumb:hover {
+    border-radius: 8px;
+      border: 3px solid transparent;
+      background-clip: content-box;
+      background-color: black;
+ }

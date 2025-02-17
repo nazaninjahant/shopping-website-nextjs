@@ -58,7 +58,7 @@ export default function LayoutProvider({ children }: { children: React.ReactNode
                 (
                     <div>
                         <Header onLogout={onLogout} currentUser={currentUser} />
-                        <div className='p-5'>{children}</div>
+                        <div className='p-5 pt-[85px]'>{children}</div>
                         <Footer />
                     </div>
                 )
